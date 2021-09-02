@@ -78,11 +78,11 @@ WSGI_APPLICATION = 'companies_employees.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ['DB_NAME'],
-        'USER': os.environ['PG_USER'],
-        'PASSWORD': os.environ['PG_PASSWORD'],
+        'NAME': os.environ['POSTGRES_DB'],
+        'USER': os.environ['POSTGRES_USER'],
+        'PASSWORD': os.environ['POSTGRES_PASSWORD'],
         'HOST': 'postgresdb',
-        'PORT': os.environ['DB_PORT']
+        'PORT': os.environ['DB_PORT'],
     }
 }
 

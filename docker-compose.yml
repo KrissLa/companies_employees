@@ -7,16 +7,18 @@ services:
       context: ./docker/postgres
       dockerfile: Dockerfile
     environment:
-      - POSTGRES_PASSWORD=testpass
+      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
 
   web:
     build:
-      context: ./docker/
+      context: ./
       dockerfile: Dockerfile
+    env_file:
+      - ".env"
     command: bash -c "
         sleep 10;
         pipenv run python manage.py makemigrations
