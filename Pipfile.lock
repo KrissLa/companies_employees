@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "f22853a0c99ec2e8c296e4c8c4d637ed1bb792df3ec0d84e207dc49e682f48d7"
+            "sha256": "61a56ddbe307a62726a9e1728abdca9fd65962ef6e3588cb06f5d7e067425dcf"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -47,6 +47,14 @@
             ],
             "index": "pypi",
             "version": "==3.12.4"
+        },
+        "loguru": {
+            "hashes": [
+                "sha256:b28e72ac7a98be3d28ad28570299a393dfcd32e5e3f6a353dec94675767b6319",
+                "sha256:f8087ac396b5ee5f67c963b495d615ebbceac2796379599820e324419d53667c"
+            ],
+            "index": "pypi",
+            "version": "==0.5.3"
         },
         "psycopg2-binary": {
             "hashes": [
