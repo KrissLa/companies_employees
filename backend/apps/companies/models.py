@@ -1,3 +1,7 @@
+"""
+Модуль для описания таблиц в базе данных приложения Компании
+"""
+
 from django.db import models
 from django_countries.fields import CountryField
 
@@ -11,13 +15,14 @@ class Company(BaseAbstractModel):
     name = models.CharField('Название компании', max_length=255)
     number_of_offices = models.PositiveSmallIntegerField('Количество офисов', default=0)
     number_of_employees = models.PositiveIntegerField('Количество сотрудников', default=0)
-    partners_companies = models.ManyToManyField("self", verbose_name='Партнеры', related_name="partners", blank=True)
+    partners_companies = models.ManyToManyField("self", verbose_name='Партнеры',
+                                                related_name="partners", blank=True)
 
     class Meta:
         verbose_name = 'Компания'
         verbose_name_plural = 'Компании'
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f'Компания {self.name}'
 
 
@@ -34,5 +39,5 @@ class Office(BaseAbstractModel):
         verbose_name = 'Офис'
         verbose_name_plural = 'Офисы'
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f'Офис {self.name} компании {self.company.name}'

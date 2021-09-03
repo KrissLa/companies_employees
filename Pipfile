@@ -8,6 +8,7 @@ django = "*"
 psycopg2-binary = "*"
 djangorestframework = "*"
 django-countries = "*"
+loguru = "*"
 
 [dev-packages]
 pylint = "*"

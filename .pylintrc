@@ -1,0 +1,5 @@
+[MASTER]
+
+ignore-paths=.*/migrations
+
+disable=import-outside-toplevel, unused-import, import-error, missing-class-docstring
