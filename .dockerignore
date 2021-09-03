@@ -1,8 +1,5 @@
+.git
 .idea/
 __pycache__/
 */__pycache__/
 */__pycache__/*
-db.sqlite3
-pgdata
-.mypy_cache
-*./migrations/*

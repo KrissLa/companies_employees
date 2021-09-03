@@ -22,7 +22,7 @@ services:
     command: bash -c "
         sleep 10;
         pipenv run python manage.py makemigrations
-        && pipenv run python manage.py migrate
+        && pipenv run python manage.py migrate --noinput
         && pipenv run python manage.py runserver 0.0.0.0:8000
       "
     volumes:
