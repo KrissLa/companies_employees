@@ -9,6 +9,9 @@ psycopg2-binary = "*"
 djangorestframework = "*"
 django-countries = "*"
 loguru = "*"
+djangorestframework-simplejwt = "*"
+django-filter = "*"
+drf-yasg = "*"
 
 [dev-packages]
 pylint = "*"
