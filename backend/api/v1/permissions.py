@@ -23,5 +23,6 @@ class IsAdminOrIsSelf(BasePermission):
     Доступ только администраторам или содателю записи
     """
 
-    def has_object_permission(self, request: Request, view: ViewSet, obj: ModelBase) -> bool:
+    def has_object_permission(self, request: Request, view: ViewSet,
+                              obj: ModelBase) -> bool:
         return bool(bool(obj == request.user) or request.user.is_staff)
