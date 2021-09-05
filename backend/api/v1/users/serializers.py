@@ -2,7 +2,6 @@
 Модуль сериализации данных приложения users
 """
 from rest_framework import serializers
-from rest_framework.serializers import ModelSerializer
 
 from backend.apps.companies.models import Company
 from backend.apps.users.models import User, Position, Skill, Language
@@ -44,7 +43,7 @@ class UserListSerializer(serializers.ModelSerializer):
                   'created_at', 'updated_at']
 
 
-class UserRetrieveCompanySerializer(ModelSerializer):
+class UserRetrieveCompanySerializer(serializers.ModelSerializer):
     """
     Сериализация информации о компании для вывода в детальной информации
     о пользователе
@@ -55,7 +54,7 @@ class UserRetrieveCompanySerializer(ModelSerializer):
         fields = ['id', 'name', ]
 
 
-class UserRetrievePositionSerializer(ModelSerializer):
+class UserRetrievePositionSerializer(serializers.ModelSerializer):
     """
     Сериализация информации о должности для вывода в детальной информации
     о пользователе
@@ -67,7 +66,7 @@ class UserRetrievePositionSerializer(ModelSerializer):
         fields = ['position', 'company']
 
 
-class UserRetrieveSkillSerializer(ModelSerializer):
+class UserRetrieveSkillSerializer(serializers.ModelSerializer):
     """
     Сериализация информации о навыках для вывода в детальной информации
     о пользователе
@@ -78,7 +77,7 @@ class UserRetrieveSkillSerializer(ModelSerializer):
         fields = ['skill', 'level']
 
 
-class UserRetrieveLanguageSerializer(ModelSerializer):
+class UserRetrieveLanguageSerializer(serializers.ModelSerializer):
     """
     Сериализация информации о языках для вывода в детальной информации
     о пользователе
@@ -103,7 +102,7 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
         exclude = ['password', 'companies']
 
 
-class PositionUserSerializer(ModelSerializer):
+class PositionUserSerializer(serializers.ModelSerializer):
     """
     Сериализация информации о пользователе
     """
@@ -124,6 +123,32 @@ class PositionSerializer(serializers.ModelSerializer):
         model = Position
         fields = ['id', 'position', 'user', 'company', 'is_active', 'created_at',
                   'updated_at']
+
+
+class PositionCreateSerializer(serializers.ModelSerializer):
+    """
+    Сериализация данных для добавления должностей
+    """
+    class Meta:
+        model = Position
+        fields = ['id', 'user', 'position', 'company', 'is_active']
+        extra_kwargs = {
+            'id': {'read_only': True},
+        }
+
+
+class PositionUpdateSerializer(serializers.ModelSerializer):
+    """
+    Сериализация данных для обновления должностей
+    """
+    class Meta:
+        model = Position
+        fields = ['id', 'user', 'position', 'company', 'is_active']
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'user': {'read_only': True},
+            'company': {'read_only': True},
+        }
 
 
 class SkillSerializer(serializers.ModelSerializer):
