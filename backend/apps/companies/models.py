@@ -25,6 +25,16 @@ class Company(BaseAbstractModel):
     def __str__(self) -> str:
         return f'Компания {self.name}'
 
+    def get_number_of_offices(self):
+        number = self.offices.filter(is_active=True).count()
+        self.number_of_offices = number
+        self.save()
+
+    def get_number_of_employees(self):
+        number = self.employees.filter(is_active=True).distinct('user').count()
+        self.number_of_employees = number
+        self.save()
+
 
 class Office(BaseAbstractModel):
     """
@@ -42,3 +52,7 @@ class Office(BaseAbstractModel):
 
     def __str__(self) -> str:
         return f'Офис {self.name} компании {self.company.name}'
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.company.get_number_of_offices()

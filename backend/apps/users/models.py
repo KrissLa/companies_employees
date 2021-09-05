@@ -42,6 +42,11 @@ class Position(BaseAbstractModel):
     def __str__(self) -> str:
         return f'{self.position} - {self.user.username} в {self.company.name}'
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        for company in self.user.companies.all():
+            company.get_number_of_employees()
+
 
 class Skill(BaseAbstractModel):
     """ Модель для хранения навыков работника """
