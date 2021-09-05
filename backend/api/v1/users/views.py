@@ -45,11 +45,16 @@ class PositionViewSet(CreateRetrieveUpdateListPermissionViewSet):
         'list': [permissions.AllowAny],
         'retrieve': [permissions.AllowAny],
     }
+    serializers_by_action = {
+        'create': serializers.PositionCreateSerializer,
+        'update': serializers.PositionUpdateSerializer,
+        'partial_update': serializers.PositionUpdateSerializer,
+    }
 
 
 class SkillViewSet(CreateRetrieveUpdateListPermissionViewSet):
     """
-    ViewSet для модели Position
+    ViewSet для модели SKill
     """
     filter_backends = (DjangoFilterBackend,)
     filterset_class = SkillFilter
