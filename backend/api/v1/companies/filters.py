@@ -5,7 +5,7 @@
 from django_filters import rest_framework as filters
 
 from backend.api.v1.filters import CharInFilter, CreatedUpdatedFilter
-from backend.apps.companies.models import Company
+from backend.apps.companies.models import Company, Office
 
 
 class CompaniesFilter(CreatedUpdatedFilter):
@@ -38,3 +38,27 @@ class CompaniesFilter(CreatedUpdatedFilter):
         model = Company
         fields = ('name', 'number_of_offices', 'number_of_employees',
                   'partners_companies', 'is_active', 'created_at', 'updated_at')
+
+
+class OfficeFilter(CreatedUpdatedFilter):
+    """
+    Фильтр для модели Company
+    - company: название компании list[str] (Company, subcompany)
+    - is_active: удален или нет bool (true/false)
+    - created_at_after: дата, после которой был
+    добавлен офис date (2021-09-03T16:40:16+03:00)
+    - created_at_before: дата, до которой был
+    добавлен офис date (2021-09-03T16:40:16+03:00)
+    - updated_at_after: дата, после которой была
+    обновлена информация об офисе последний раз date (2021-09-03T16:40:16+03:00)
+    - updated_at_before: дата, до которой была
+    обновлена информация об офисе последний раз date (2021-09-03T16:40:16+03:00)
+    """
+    company = CharInFilter(field_name='company__name',
+                           lookup_expr='in')
+    country = CharInFilter(field_name='country',
+                           lookup_expr='in')
+
+    class Meta:
+        model = Office
+        fields = ('company', 'country', 'is_active', 'created_at', 'updated_at')

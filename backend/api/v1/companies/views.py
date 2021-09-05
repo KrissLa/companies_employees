@@ -11,9 +11,9 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
 from backend.api.v1.companies import serializers
-from backend.api.v1.companies.filters import CompaniesFilter
+from backend.api.v1.companies.filters import CompaniesFilter, OfficeFilter
 from backend.api.v1.viewsets import CreateRetrieveUpdateListPermissionViewSet
-from backend.apps.companies.models import Company
+from backend.apps.companies.models import Company, Office
 
 
 class CompanyViewSet(CreateRetrieveUpdateListPermissionViewSet):
@@ -67,3 +67,22 @@ class CompanyViewSet(CreateRetrieveUpdateListPermissionViewSet):
         company.partners_companies.remove(partner_id)
 
         return Response(status=200, data={'detail': 'Сотрудничество успешно прекращено!'})
+
+
+class OfficeViewSet(CreateRetrieveUpdateListPermissionViewSet):
+    """
+    ViewSet для модели Office
+    """
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = OfficeFilter
+    queryset = Office.objects.all()
+    serializer_class = serializers.OfficeCreateSerializer
+    permission_classes = [permissions.IsAdminUser]
+    permission_classes_by_action = {
+        'list': [permissions.AllowAny],
+        'retrieve': [permissions.AllowAny],
+    }
+    serializers_by_action = {
+        'list': serializers.OfficeSerializer,
+        'retrieve': serializers.OfficeSerializer,
+    }
