@@ -1,7 +1,6 @@
 """
 Модуль сериализации данных приложения users
 """
-
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
@@ -102,3 +101,26 @@ class UserRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = ['password', 'companies']
+
+
+class PositionUserSerializer(ModelSerializer):
+    """
+    Сериализация информации о пользователе
+    """
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', ]
+
+
+class PositionSerializer(serializers.ModelSerializer):
+    """
+    Сериализация данных для должностей в компаниях
+    """
+    company = UserRetrieveCompanySerializer(read_only=True)
+    user = PositionUserSerializer(read_only=True)
+
+    class Meta:
+        model = Position
+        fields = ['id', 'position', 'user', 'company', 'is_active', 'created_at',
+                  'updated_at']

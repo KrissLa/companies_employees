@@ -7,9 +7,9 @@ from rest_framework import permissions
 
 from backend.api.v1 import permissions as permissions_custom
 from backend.api.v1.users import serializers
-from backend.api.v1.users.filters import UserFilter
+from backend.api.v1.users.filters import UserFilter, PositionFilter
 from backend.api.v1.viewsets import CreateRetrieveUpdateListPermissionViewSet
-from backend.apps.users.models import User
+from backend.apps.users.models import User, Position
 
 
 class UserViewSet(CreateRetrieveUpdateListPermissionViewSet):
@@ -29,4 +29,19 @@ class UserViewSet(CreateRetrieveUpdateListPermissionViewSet):
     serializers_by_action = {
         'list': serializers.UserListSerializer,
         'retrieve': serializers.UserRetrieveSerializer,
+    }
+
+
+class PositionViewSet(CreateRetrieveUpdateListPermissionViewSet):
+    """
+    ViewSet для модели Position
+    """
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = PositionFilter
+    queryset = Position.objects.all()
+    serializer_class = serializers.PositionSerializer
+    permission_classes = [permissions.IsAdminUser]
+    permission_classes_by_action = {
+        'list': [permissions.AllowAny],
+        'retrieve': [permissions.AllowAny],
     }
