@@ -129,6 +129,7 @@ class PositionCreateSerializer(serializers.ModelSerializer):
     """
     Сериализация данных для добавления должностей
     """
+
     class Meta:
         model = Position
         fields = ['id', 'user', 'position', 'company', 'is_active']
@@ -141,6 +142,7 @@ class PositionUpdateSerializer(serializers.ModelSerializer):
     """
     Сериализация данных для обновления должностей
     """
+
     class Meta:
         model = Position
         fields = ['id', 'user', 'position', 'company', 'is_active']
@@ -184,6 +186,45 @@ class SkillUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Skill
         fields = ['id', 'user', 'skill', 'level', 'is_active']
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'user': {'read_only': True},
+        }
+
+
+class LanguageSerializer(serializers.ModelSerializer):
+    """
+    Сериализация данных для языков
+    """
+    user = PositionUserSerializer(read_only=True)
+
+    class Meta:
+        model = Language
+        fields = ['id', 'user', 'language', 'level', 'is_active', 'created_at',
+                  'updated_at']
+
+
+class LanguageCreateSerializer(serializers.ModelSerializer):
+    """
+    Сериализация данных для языков
+    """
+
+    class Meta:
+        model = Language
+        fields = ['id', 'user', 'language', 'level', 'is_active']
+        extra_kwargs = {
+            'id': {'read_only': True},
+        }
+
+
+class LanguageUpdateSerializer(serializers.ModelSerializer):
+    """
+    Сериализация данных для языков
+    """
+
+    class Meta:
+        model = Language
+        fields = ['id', 'user', 'language', 'level', 'is_active']
         extra_kwargs = {
             'id': {'read_only': True},
             'user': {'read_only': True},
