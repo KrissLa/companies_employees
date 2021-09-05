@@ -124,3 +124,42 @@ class PositionSerializer(serializers.ModelSerializer):
         model = Position
         fields = ['id', 'position', 'user', 'company', 'is_active', 'created_at',
                   'updated_at']
+
+
+class SkillSerializer(serializers.ModelSerializer):
+    """
+    Сериализация данных для навыков
+    """
+    user = PositionUserSerializer(read_only=True)
+
+    class Meta:
+        model = Skill
+        fields = ['id', 'user', 'skill', 'level', 'is_active', 'created_at',
+                  'updated_at']
+
+
+class SkillCreateSerializer(serializers.ModelSerializer):
+    """
+    Сериализация данных для навыков
+    """
+
+    class Meta:
+        model = Skill
+        fields = ['id', 'user', 'skill', 'level', 'is_active']
+        extra_kwargs = {
+            'id': {'read_only': True},
+        }
+
+
+class SkillUpdateSerializer(serializers.ModelSerializer):
+    """
+    Сериализация данных для навыков
+    """
+
+    class Meta:
+        model = Skill
+        fields = ['id', 'user', 'skill', 'level', 'is_active']
+        extra_kwargs = {
+            'id': {'read_only': True},
+            'user': {'read_only': True},
+        }

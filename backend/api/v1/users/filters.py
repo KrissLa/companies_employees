@@ -4,7 +4,7 @@
 
 from django_filters import rest_framework as filters
 
-from backend.apps.users.models import User, Position
+from backend.apps.users.models import User, Position, Skill
 
 
 class CharInFilter(filters.BaseInFilter, filters.CharFilter):
@@ -96,3 +96,31 @@ class PositionFilter(CreatedUpdatedFilter):
     class Meta:
         model = Position
         fields = ('companies', 'user', 'is_active', 'created_at', 'updated_at', 'position')
+
+
+class SkillFilter(CreatedUpdatedFilter):
+    """
+    Фильтр для модели Skill
+    - user: usernames пользователей list[str] (user1, user2)
+    - level_min: минимальный уровень  int (от 1 до 10)
+    - level_max: максимальный уровень int (от 1 до 10)
+    - skill: навыки list[str] (Python, JS)
+    - is_active: удален или нет bool (true/false)
+    - created_at_after: дата, после которой навык был
+    добавлен date (2021-09-03T16:40:16+03:00)
+    - created_at_before: дата, до которой навык был
+    добавлен date (2021-09-03T16:40:16+03:00)
+    - updated_at_after: дата, после которой было последнее
+    обновление записи date (2021-09-03T16:40:16+03:00)
+    - updated_at_before: дата, до которой было последнее
+    обновление записи date (2021-09-03T16:40:16+03:00)
+    """
+    user = CharInFilter(field_name='user__username',
+                        lookup_expr='in')
+    level = filters.RangeFilter()
+    skill = CharInFilter(field_name='skill',
+                         lookup_expr='in')
+
+    class Meta:
+        model = Skill
+        fields = ('user', 'level', 'skill', 'is_active', 'created_at', 'updated_at')

@@ -3,6 +3,7 @@
 """
 
 from django.db.models.base import ModelBase
+from loguru import logger
 from rest_framework.permissions import BasePermission
 from rest_framework.request import Request
 from rest_framework.viewsets import ViewSet
@@ -26,3 +27,28 @@ class IsAdminOrIsSelf(BasePermission):
     def has_object_permission(self, request: Request, view: ViewSet,
                               obj: ModelBase) -> bool:
         return bool(bool(obj == request.user) or request.user.is_staff)
+
+
+class IsAdminOrIsOwner(BasePermission):
+    """
+    Доступ к созданию записи администраторам
+    или создание записи с ссылкой на себя
+    """
+
+    def has_permission(self, request: Request, view: ViewSet) -> bool:
+        try:
+            user = request.data['user']
+        except KeyError:
+            user = None
+        return bool(bool(user == request.user.id) or request.user.is_staff)
+
+
+class IsAdminOrIsOwnerObject(BasePermission):
+    """
+    Доступ только администраторам или владельцу записи
+    """
+
+    def has_object_permission(self, request: Request, view: ViewSet,
+                              obj: ModelBase) -> bool:
+        logger.info(obj.user)
+        return bool(bool(obj.user == request.user) or request.user.is_staff)
