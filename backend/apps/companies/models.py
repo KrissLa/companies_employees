@@ -31,7 +31,8 @@ class Office(BaseAbstractModel):
     Класс для создания таблицы companies_office в базе данных
     """
     name = models.CharField('Название офиса', max_length=255)
-    company = models.ForeignKey(Company, verbose_name='Компания', on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, verbose_name='Компания', on_delete=models.CASCADE,
+                                related_name='offices')
     country = CountryField(verbose_name='Страна', blank_label='(Выберите страну)')
     address = models.CharField('Адрес офиса', max_length=400)
 
