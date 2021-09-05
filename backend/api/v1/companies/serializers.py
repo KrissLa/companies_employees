@@ -1,8 +1,6 @@
 """
 Модуль сериализации данных приложения users
 """
-from turtle import position
-
 from rest_framework import serializers
 from rest_framework.fields import IntegerField
 
@@ -34,7 +32,6 @@ class CompanyPartnershipSerializer(serializers.ModelSerializer):
         fields = ['id']
 
 
-
 class CompanyPartnersSerializer(serializers.ModelSerializer):
     """
     Сериализация информации о партнерах
@@ -51,6 +48,7 @@ class CompanyUserSerializer(serializers.ModelSerializer):
     Сериализация информации о пользователе
     для вывода в информации о компании
     """
+
     class Meta:
         model = User
         fields = ['id', 'username']
@@ -95,6 +93,32 @@ class CompanyCreateUpdateSerializer(serializers.ModelSerializer):
             'id': {'read_only': True},
             'number_of_offices': {'read_only': True},
             'number_of_employees': {'read_only': True},
+            'created_at': {'read_only': True},
+            'updated_at': {'read_only': True},
+        }
+
+
+class OfficeSerializer(serializers.ModelSerializer):
+    """
+    Сериализация информации об офисах
+    """
+    company = CompanyPartnersSerializer(read_only=True)
+
+    class Meta:
+        model = Office
+        fields = '__all__'
+
+
+class OfficeCreateSerializer(serializers.ModelSerializer):
+    """
+    Сериализация информации об офисах
+    """
+
+    class Meta:
+        model = Office
+        fields = '__all__'
+        extra_kwargs = {
+            'id': {'read_only': True},
             'created_at': {'read_only': True},
             'updated_at': {'read_only': True},
         }
