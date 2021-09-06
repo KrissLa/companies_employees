@@ -1,8 +1,16 @@
+"""
+Тесты для моделей приложения users
+"""
 import pytest
+
+from backend.apps.companies.models import Company
+from backend.apps.users.models import User, Language, Skill, Position
 
 
 @pytest.mark.django_db
-def test_user_model(default_user, default_username, default_password):
+def test_user_model(default_user: User,
+                    default_username: str,
+                    default_password: str) -> None:
     assert default_user.username == default_username
     assert default_user.check_password(default_password)
     assert not default_user.first_name
@@ -19,7 +27,8 @@ def test_user_model(default_user, default_username, default_password):
 
 
 @pytest.mark.django_db
-def test_position_model(default_company, default_user, default_position, default_position_name):
+def test_position_model(default_company: Company, default_user: User,
+                        default_position: Position, default_position_name: str) -> None:
     assert default_position.is_active
     assert default_position.created_at
     assert default_position.updated_at
@@ -35,7 +44,10 @@ def test_position_model(default_company, default_user, default_position, default
 
 
 @pytest.mark.django_db
-def test_skill_model(default_user, default_skill, default_skill_name, default_level):
+def test_skill_model(default_user: User,
+                     default_skill: Skill,
+                     default_skill_name: str,
+                     default_level: int) -> None:
     assert default_skill.user == default_user
     assert default_skill.skill == default_skill_name
     assert default_skill.level == default_level
@@ -43,11 +55,14 @@ def test_skill_model(default_user, default_skill, default_skill_name, default_le
     assert default_skill.updated_at
     assert default_skill.created_at
     assert default_user.skills.all().count() == 1
-    assert str(default_skill) == f'{default_skill.skill} - {default_skill.level} - {default_skill.user.username}'
+    assert str(default_skill) == f'{default_skill.skill} - ' \
+                                 f'{default_skill.level} - ' \
+                                 f'{default_skill.user.username}'
 
 
 @pytest.mark.django_db
-def test_language_model(default_user, default_language, default_level, default_language_name):
+def test_language_model(default_user: User, default_language: Language,
+                        default_level: int, default_language_name: str) -> None:
     assert default_language.user == default_user
     assert default_language.language == default_language_name
     assert default_language.level == default_level
