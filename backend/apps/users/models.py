@@ -52,8 +52,7 @@ class Position(BaseAbstractModel):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        for company in self.user.companies.all():
-            company.get_number_of_employees()
+        self.company.get_number_of_employees()
 
 
 class Skill(BaseAbstractModel):

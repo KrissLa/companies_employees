@@ -29,11 +29,13 @@ class Company(BaseAbstractModel):
         number = self.offices.filter(is_active=True).count()
         self.number_of_offices = number
         self.save()
+        return self.number_of_offices
 
     def get_number_of_employees(self):
         number = self.employees.filter(is_active=True).distinct('user').count()
         self.number_of_employees = number
         self.save()
+        return self.number_of_employees
 
 
 class Office(BaseAbstractModel):
