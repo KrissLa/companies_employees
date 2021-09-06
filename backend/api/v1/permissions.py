@@ -15,8 +15,9 @@ class IsAdminOrAnon(BasePermission):
     """
 
     def has_permission(self, request: Request, view: ViewSet) -> bool:
-        return bool(not request.user or not request.user.is_authenticated
-                    or request.user.is_staff)
+        return bool(
+            not request.user or not request.user.is_authenticated or request.user.is_staff
+        )
 
 
 class IsAdminOrIsSelf(BasePermission):
@@ -24,8 +25,9 @@ class IsAdminOrIsSelf(BasePermission):
     Доступ только администраторам или содателю записи
     """
 
-    def has_object_permission(self, request: Request, view: ViewSet,
-                              obj: ModelBase) -> bool:
+    def has_object_permission(
+        self, request: Request, view: ViewSet, obj: ModelBase
+    ) -> bool:
         return bool(bool(obj == request.user) or request.user.is_staff)
 
 
@@ -37,7 +39,7 @@ class IsAdminOrIsOwner(BasePermission):
 
     def has_permission(self, request: Request, view: ViewSet) -> bool:
         try:
-            user = request.data['user']
+            user = request.data["user"]
         except KeyError:
             user = None
         return bool(bool(user == request.user.id) or request.user.is_staff)
@@ -48,7 +50,8 @@ class IsAdminOrIsOwnerObject(BasePermission):
     Доступ только администраторам или владельцу записи
     """
 
-    def has_object_permission(self, request: Request, view: ViewSet,
-                              obj: ModelBase) -> bool:
+    def has_object_permission(
+        self, request: Request, view: ViewSet, obj: ModelBase
+    ) -> bool:
         logger.info(obj.user)
         return bool(bool(obj.user == request.user) or request.user.is_staff)

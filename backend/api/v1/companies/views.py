@@ -20,85 +20,95 @@ class CompanyViewSet(CreateRetrieveUpdateListPermissionViewSet):
     """
     ViewSet для модели Company
     """
+
     filter_backends = (DjangoFilterBackend,)
     filterset_class = CompaniesFilter
     queryset = Company.objects.all().distinct()
     serializer_class = serializers.CompanyCreateUpdateSerializer
     permission_classes = [permissions.IsAdminUser]
     permission_classes_by_action = {
-        'list': [permissions.AllowAny],
-        'retrieve': [permissions.AllowAny],
+        "list": [permissions.AllowAny],
+        "retrieve": [permissions.AllowAny],
     }
     serializers_by_action = {
-        'retrieve': serializers.CompanySerializer,
-        'add_partner': serializers.CompanyPartnershipSerializer,
-        'remove_partner': serializers.CompanyPartnershipSerializer,
+        "retrieve": serializers.CompanySerializer,
+        "add_partner": serializers.CompanyPartnershipSerializer,
+        "remove_partner": serializers.CompanyPartnershipSerializer,
     }
 
-    @action(detail=True, methods=['post'], url_path='partnership/add',
-            url_name='partnership_create')
+    @action(
+        detail=True,
+        methods=["post"],
+        url_path="partnership/add",
+        url_name="partnership_create",
+    )
     def add_partner(self, request: Request, pk: int = None) -> Response:
         """
         Добавляет партнера
         """
         company = get_object_or_404(Company, pk=pk)
         try:
-            company.partners_companies.add(request.data['id'])
+            company.partners_companies.add(request.data["id"])
         except ValidationError:
-            return Response(status=403,
-                            data={'detail': 'Вы не можете сотрудничать с собой('})
+            return Response(
+                status=403, data={"detail": "Вы не можете сотрудничать с собой("}
+            )
         except IntegrityError:
-            return Response(status=404,
-                            data={'detail': 'Компания для сотрудничества не найдена'})
+            return Response(
+                status=404, data={"detail": "Компания для сотрудничества не найдена"}
+            )
         except ValueError:
-            return Response(status=400,
-                            data={'detail': 'поле id должно быть целым числом'})
+            return Response(
+                status=400, data={"detail": "поле id должно быть целым числом"}
+            )
         except KeyError:
-            return Response(status=400,
-                            data={'detail': 'поле id - обязательное'})
-        return Response(status=200,
-                        data={'detail': 'Сотрудничество успешно добавлено!'})
+            return Response(status=400, data={"detail": "поле id - обязательное"})
+        return Response(status=200, data={"detail": "Сотрудничество успешно добавлено!"})
 
-    @action(detail=True, methods=['post'], url_path='partnership/remove',
-            url_name='partnership_remove')
+    @action(
+        detail=True,
+        methods=["post"],
+        url_path="partnership/remove",
+        url_name="partnership_remove",
+    )
     def remove_partner(self, request: Request, pk: int = None) -> Response:
         """
         Удаляет партнера
         """
         try:
-            partner_id = int(request.data['id'])
+            partner_id = int(request.data["id"])
         except ValueError:
-            return Response(status=400,
-                            data={'detail': 'поле id должно быть целым числом'})
+            return Response(
+                status=400, data={"detail": "поле id должно быть целым числом"}
+            )
         except KeyError:
-            return Response(status=400,
-                            data={'detail': 'поле id - обязательное'})
+            return Response(status=400, data={"detail": "поле id - обязательное"})
         company = get_object_or_404(Company, pk=pk)
-        if partner_id not in [company["id"] for company in
-                              company.partners_companies.all().values('id')]:
-            return Response(status=404,
-                            data={'detail': 'Компании не сотрудничают!'})
+        if partner_id not in [
+            company["id"] for company in company.partners_companies.all().values("id")
+        ]:
+            return Response(status=404, data={"detail": "Компании не сотрудничают!"})
 
         company.partners_companies.remove(partner_id)
 
-        return Response(status=200,
-                        data={'detail': 'Сотрудничество успешно прекращено!'})
+        return Response(status=200, data={"detail": "Сотрудничество успешно прекращено!"})
 
 
 class OfficeViewSet(CreateRetrieveUpdateListPermissionViewSet):
     """
     ViewSet для модели Office
     """
+
     filter_backends = (DjangoFilterBackend,)
     filterset_class = OfficeFilter
     queryset = Office.objects.all()
     serializer_class = serializers.OfficeCreateSerializer
     permission_classes = [permissions.IsAdminUser]
     permission_classes_by_action = {
-        'list': [permissions.AllowAny],
-        'retrieve': [permissions.AllowAny],
+        "list": [permissions.AllowAny],
+        "retrieve": [permissions.AllowAny],
     }
     serializers_by_action = {
-        'list': serializers.OfficeSerializer,
-        'retrieve': serializers.OfficeSerializer,
+        "list": serializers.OfficeSerializer,
+        "retrieve": serializers.OfficeSerializer,
     }

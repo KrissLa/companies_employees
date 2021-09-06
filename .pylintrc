@@ -2,4 +2,4 @@
 
 ignore-paths=.*/migrations
 
-disable=import-outside-toplevel, unused-import, import-error, missing-class-docstring
+disable=import-outside-toplevel, unused-import, import-error, redefined-outer-name, no-self-use, no-member, too-few-public-methods, missing-class-docstring

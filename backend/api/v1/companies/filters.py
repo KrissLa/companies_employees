@@ -27,17 +27,25 @@ class CompaniesFilter(CreatedUpdatedFilter):
     - updated_at_before: дата, до которой была
     обновлена компания последний раз date (2021-09-03T16:40:16+03:00)
     """
+
     number_of_offices = filters.RangeFilter()
     number_of_employees = filters.RangeFilter()
-    name = CharInFilter(field_name='name',
-                        lookup_expr='in')
-    partners_companies = CharInFilter(field_name='partners_companies__name',
-                                      lookup_expr='in')
+    name = CharInFilter(field_name="name", lookup_expr="in")
+    partners_companies = CharInFilter(
+        field_name="partners_companies__name", lookup_expr="in"
+    )
 
     class Meta:
         model = Company
-        fields = ('name', 'number_of_offices', 'number_of_employees',
-                  'partners_companies', 'is_active', 'created_at', 'updated_at')
+        fields = (
+            "name",
+            "number_of_offices",
+            "number_of_employees",
+            "partners_companies",
+            "is_active",
+            "created_at",
+            "updated_at",
+        )
 
 
 class OfficeFilter(CreatedUpdatedFilter):
@@ -54,11 +62,10 @@ class OfficeFilter(CreatedUpdatedFilter):
     - updated_at_before: дата, до которой была
     обновлена информация об офисе последний раз date (2021-09-03T16:40:16+03:00)
     """
-    company = CharInFilter(field_name='company__name',
-                           lookup_expr='in')
-    country = CharInFilter(field_name='country',
-                           lookup_expr='in')
+
+    company = CharInFilter(field_name="company__name", lookup_expr="in")
+    country = CharInFilter(field_name="country", lookup_expr="in")
 
     class Meta:
         model = Office
-        fields = ('company', 'country', 'is_active', 'created_at', 'updated_at')
+        fields = ("company", "country", "is_active", "created_at", "updated_at")

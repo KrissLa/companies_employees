@@ -11,6 +11,7 @@ class PermissionSerializerByActionMixinCustom:
     Класс, который позваоляет разграничить permissions
     и serializers в зависимости от метода запроса
     """
+
     action: str
     permission_classes: list
     serializer_class: Serializer = None
@@ -28,8 +29,10 @@ class PermissionSerializerByActionMixinCustom:
         Для неуказанных методов используются permission_classes
         """
         try:
-            return [permission() for permission
-                    in self.permission_classes_by_action[self.action]]
+            return [
+                permission()
+                for permission in self.permission_classes_by_action[self.action]
+            ]
         except KeyError:
             return [permission() for permission in self.permission_classes]
 
@@ -43,18 +46,20 @@ class PermissionSerializerByActionMixinCustom:
                 # etc.
             }
         """
-        return self.serializers_by_action.get(self.action,
-                                              self.serializer_class)
+        return self.serializers_by_action.get(self.action, self.serializer_class)
 
 
-class CreateRetrieveUpdateListPermissionViewSet(mixins.CreateModelMixin,
-                                                mixins.RetrieveModelMixin,
-                                                mixins.UpdateModelMixin,
-                                                mixins.ListModelMixin,
-                                                PermissionSerializerByActionMixinCustom,
-                                                viewsets.GenericViewSet):
+class CreateRetrieveUpdateListPermissionViewSet(
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.ListModelMixin,
+    PermissionSerializerByActionMixinCustom,
+    viewsets.GenericViewSet,
+):
     """
     Viewset, который предоставляет методы `create()`, `retrieve()`, `update()`,
     `partial_update()`, `list()` и позволяет разграничить доступ к ним.
     """
+
     pass

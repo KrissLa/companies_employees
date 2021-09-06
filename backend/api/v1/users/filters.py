@@ -32,20 +32,25 @@ class UserFilter(CreatedUpdatedFilter):
     - skill: навыки list[str] (python, js)
     - language: языки list[str] (английский, русский)
     """
+
     age = filters.RangeFilter()
     date_joined = filters.DateTimeFromToRangeFilter()
-    companies = CharInFilter(field_name='user_companies__company__name',
-                             lookup_expr='in')
-    position = CharInFilter(field_name='user_companies__position',
-                            lookup_expr='in')
-    skill = CharInFilter(field_name='skills__skill', lookup_expr='in')
-    language = CharInFilter(field_name='languages__language',
-                            lookup_expr='in')
+    companies = CharInFilter(field_name="user_companies__company__name", lookup_expr="in")
+    position = CharInFilter(field_name="user_companies__position", lookup_expr="in")
+    skill = CharInFilter(field_name="skills__skill", lookup_expr="in")
+    language = CharInFilter(field_name="languages__language", lookup_expr="in")
 
     class Meta:
         model = User
-        fields = ('age', 'companies', 'is_active', 'is_staff',
-                  'date_joined', 'created_at', 'updated_at')
+        fields = (
+            "age",
+            "companies",
+            "is_active",
+            "is_staff",
+            "date_joined",
+            "created_at",
+            "updated_at",
+        )
 
 
 class PositionFilter(CreatedUpdatedFilter):
@@ -64,16 +69,14 @@ class PositionFilter(CreatedUpdatedFilter):
     обновление записи date (2021-09-03T16:40:16+03:00)
     - position: должности list[str] (Junior, Менеджер)
     """
-    companies = CharInFilter(field_name='company__name',
-                             lookup_expr='in')
-    user = CharInFilter(field_name='user__username',
-                        lookup_expr='in')
-    position = CharInFilter(field_name='position',
-                            lookup_expr='in')
+
+    companies = CharInFilter(field_name="company__name", lookup_expr="in")
+    user = CharInFilter(field_name="user__username", lookup_expr="in")
+    position = CharInFilter(field_name="position", lookup_expr="in")
 
     class Meta:
         model = Position
-        fields = ('companies', 'user', 'is_active', 'created_at', 'updated_at', 'position')
+        fields = ("companies", "user", "is_active", "created_at", "updated_at", "position")
 
 
 class UserLevelFilter(CreatedUpdatedFilter):
@@ -83,8 +86,8 @@ class UserLevelFilter(CreatedUpdatedFilter):
     - level_min: минимальный уровень  int (от 1 до 10)
     - level_max: максимальный уровень int (от 1 до 10)
     """
-    user = CharInFilter(field_name='user__username',
-                        lookup_expr='in')
+
+    user = CharInFilter(field_name="user__username", lookup_expr="in")
     level = filters.RangeFilter()
 
 
@@ -105,12 +108,12 @@ class SkillFilter(UserLevelFilter):
     - updated_at_before: дата, до которой было последнее
     обновление записи date (2021-09-03T16:40:16+03:00)
     """
-    skill = CharInFilter(field_name='skill',
-                         lookup_expr='in')
+
+    skill = CharInFilter(field_name="skill", lookup_expr="in")
 
     class Meta:
         model = Skill
-        fields = ('user', 'level', 'skill', 'is_active', 'created_at', 'updated_at')
+        fields = ("user", "level", "skill", "is_active", "created_at", "updated_at")
 
 
 class LanguageFilter(UserLevelFilter):
@@ -130,9 +133,9 @@ class LanguageFilter(UserLevelFilter):
     - updated_at_before: дата, до которой было последнее
     обновление записи date (2021-09-03T16:40:16+03:00)
     """
-    language = CharInFilter(field_name='language',
-                            lookup_expr='in')
+
+    language = CharInFilter(field_name="language", lookup_expr="in")
 
     class Meta:
         model = Language
-        fields = ('user', 'level', 'language', 'is_active', 'created_at', 'updated_at')
+        fields = ("user", "level", "language", "is_active", "created_at", "updated_at")

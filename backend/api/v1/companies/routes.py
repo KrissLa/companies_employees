@@ -6,8 +6,8 @@ from rest_framework import routers
 from backend.api.v1.companies import views
 
 router = routers.DefaultRouter()
-router.register(r'offices', views.OfficeViewSet, basename='offices')
-router.register(r'', views.CompanyViewSet, basename='companies')
+router.register(r"offices", views.OfficeViewSet, basename="offices")
+router.register(r"", views.CompanyViewSet, basename="companies")
 
 
 urlpatterns: list = []

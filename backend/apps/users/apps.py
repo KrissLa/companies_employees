@@ -8,6 +8,7 @@ class UsersConfig(AppConfig):
     """
     Класс конфигурации приложения Пользователи
     """
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'backend.apps.users'
-    verbose_name = 'Пользователи'
+
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "backend.apps.users"
+    verbose_name = "Пользователи"

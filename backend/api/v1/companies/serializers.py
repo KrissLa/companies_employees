@@ -16,7 +16,7 @@ class CompanyOfficeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Office
-        fields = ['id', 'name']
+        fields = ["id", "name"]
 
 
 class CompanyPartnershipSerializer(serializers.ModelSerializer):
@@ -25,11 +25,12 @@ class CompanyPartnershipSerializer(serializers.ModelSerializer):
     для добавления или удаления связей
     сотрудничества
     """
+
     id = IntegerField()
 
     class Meta:
         model = Company
-        fields = ['id']
+        fields = ["id"]
 
 
 class CompanyPartnersSerializer(serializers.ModelSerializer):
@@ -40,7 +41,7 @@ class CompanyPartnersSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Company
-        fields = ['id', 'name']
+        fields = ["id", "name"]
 
 
 class CompanyUserSerializer(serializers.ModelSerializer):
@@ -51,7 +52,7 @@ class CompanyUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username']
+        fields = ["id", "username"]
 
 
 class CompanyEmployeesSerializer(serializers.ModelSerializer):
@@ -59,11 +60,12 @@ class CompanyEmployeesSerializer(serializers.ModelSerializer):
     Сериализация информации о партнерах
     для вывода в информации о компании
     """
+
     user = CompanyUserSerializer(read_only=True)
 
     class Meta:
         model = Position
-        fields = ['id', 'user', 'position']
+        fields = ["id", "user", "position"]
 
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -71,13 +73,14 @@ class CompanySerializer(serializers.ModelSerializer):
     Сеаризация данных для просмотра информации
     о компании
     """
+
     offices = CompanyOfficeSerializer(many=True, read_only=True)
     partners_companies = CompanyPartnersSerializer(many=True, read_only=True)
     employees = CompanyEmployeesSerializer(many=True, read_only=True)
 
     class Meta:
         model = Company
-        fields = '__all__'
+        fields = "__all__"
 
 
 class CompanyCreateUpdateSerializer(serializers.ModelSerializer):
@@ -87,14 +90,21 @@ class CompanyCreateUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Company
-        fields = ['id', 'name', 'number_of_offices', 'number_of_employees',
-                  'is_active', 'created_at', 'updated_at']
+        fields = [
+            "id",
+            "name",
+            "number_of_offices",
+            "number_of_employees",
+            "is_active",
+            "created_at",
+            "updated_at",
+        ]
         extra_kwargs = {
-            'id': {'read_only': True},
-            'number_of_offices': {'read_only': True},
-            'number_of_employees': {'read_only': True},
-            'created_at': {'read_only': True},
-            'updated_at': {'read_only': True},
+            "id": {"read_only": True},
+            "number_of_offices": {"read_only": True},
+            "number_of_employees": {"read_only": True},
+            "created_at": {"read_only": True},
+            "updated_at": {"read_only": True},
         }
 
 
@@ -102,11 +112,12 @@ class OfficeSerializer(serializers.ModelSerializer):
     """
     Сериализация информации об офисах
     """
+
     company = CompanyPartnersSerializer(read_only=True)
 
     class Meta:
         model = Office
-        fields = '__all__'
+        fields = "__all__"
 
 
 class OfficeCreateSerializer(serializers.ModelSerializer):
@@ -116,9 +127,9 @@ class OfficeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Office
-        fields = '__all__'
+        fields = "__all__"
         extra_kwargs = {
-            'id': {'read_only': True},
-            'created_at': {'read_only': True},
-            'updated_at': {'read_only': True},
+            "id": {"read_only": True},
+            "created_at": {"read_only": True},
+            "updated_at": {"read_only": True},
         }

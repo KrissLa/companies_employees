@@ -23,5 +23,6 @@ class CreatedUpdatedFilter(filters.FilterSet):
     - updated_at_before: дата, до которой было последнее
     обновление записи date (2021-09-03T16:40:16+03:00)
     """
+
     created_at = filters.DateTimeFromToRangeFilter()
     updated_at = filters.DateTimeFromToRangeFilter()
