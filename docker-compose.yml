@@ -1,35 +1,60 @@
-version: "3"
+version: "3.8"
 
 
 services:
-  postgresdb:
-    build:
-      context: ./docker/postgres
-      dockerfile: Dockerfile
-    environment:
-      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
-    volumes:
-      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "5432:5432"
-
   web:
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    env_file:
-      - ".env"
-    command: bash -c "
-        sleep 10;
-        pipenv run python manage.py makemigrations
-        && pipenv run python manage.py migrate --noinput
-        && pipenv run python manage.py runserver 0.0.0.0:8000
-      "
+    build: .
+    command: pipenv run python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./:/usr/src/app
+      - ./:/usr/src/app/
     ports:
-      - "8000:8000"
+      - "8009:8000"
+    env_file:
+      - .env.dev
     depends_on:
-      - postgresdb
+      - db
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=db_dev
+
+volumes:
+  postgres_data:
+
+
+
+#  postgresdb:
+#    build:
+#      context: ./docker/postgres
+#      dockerfile: Dockerfile
+#    environment:
+#      - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+#    volumes:
+#      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+#    ports:
+#      - "5432:5432"
+#
+#  web:
+#    build:
+#      context: ./
+#      dockerfile: Dockerfile
+#    env_file:
+#      - ".env"
+#    command: bash -c "
+#        sleep 10;
+#        pipenv run python manage.py makemigrations
+#        && pipenv run python manage.py migrate --noinput
+#        && pipenv run python manage.py runserver 0.0.0.0:8000
+#      "
+#    volumes:
+#      - ./:/usr/src/app
+#    ports:
+#      - "8000:8000"
+#    depends_on:
+#      - postgresdb
 
 

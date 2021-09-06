@@ -26,6 +26,14 @@ class User(AbstractUser, BaseAbstractModel):
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
 
+    def __str__(self):
+        return self.username
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.set_password(self.password)
+        super().save(*args, **kwargs)
+
 
 class Position(BaseAbstractModel):
     """ Модель для хранения связи людей с компаниями """
