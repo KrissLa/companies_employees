@@ -6,4 +6,5 @@ db.sqlite3
 pgdata
 .mypy_cache
 migrations
+*/migrations/
 .pytest_cache

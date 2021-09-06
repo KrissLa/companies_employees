@@ -2,7 +2,9 @@
 Модуль, описывающий схему базы данных
 приложения users
 """
+from typing import Any
 
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
@@ -26,12 +28,13 @@ class User(AbstractUser, BaseAbstractModel):
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.username
 
-    def save(self, *args, **kwargs):
+    def save(self, *args: Any, **kwargs: Any) -> None:
         if not self.pk:
-            self.set_password(self.password)
+            if not self.is_superuser:
+                self.password: str = make_password(self.password)
         super().save(*args, **kwargs)
 
 
@@ -50,7 +53,7 @@ class Position(BaseAbstractModel):
     def __str__(self) -> str:
         return f'{self.position} - {self.user.username} в {self.company.name}'
 
-    def save(self, *args, **kwargs):
+    def save(self, *args: Any, **kwargs: Any) -> None:
         super().save(*args, **kwargs)
         self.company.get_number_of_employees()
 

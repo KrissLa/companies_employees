@@ -1,6 +1,7 @@
 """
 Модуль для описания таблиц в базе данных приложения Компании
 """
+from typing import Any
 
 from django.db import models
 from django_countries.fields import CountryField
@@ -25,13 +26,19 @@ class Company(BaseAbstractModel):
     def __str__(self) -> str:
         return f'Компания {self.name}'
 
-    def get_number_of_offices(self):
+    def get_number_of_offices(self) -> int:
+        """
+        Пересчитывает количество офисов и сохраняет
+        """
         number = self.offices.filter(is_active=True).count()
         self.number_of_offices = number
         self.save()
         return self.number_of_offices
 
-    def get_number_of_employees(self):
+    def get_number_of_employees(self) -> int:
+        """
+        Пересчитывает количество работников и сохраняет
+        """
         number = self.employees.filter(is_active=True).distinct('user').count()
         self.number_of_employees = number
         self.save()
@@ -55,6 +62,6 @@ class Office(BaseAbstractModel):
     def __str__(self) -> str:
         return f'Офис {self.name} компании {self.company.name}'
 
-    def save(self, *args, **kwargs):
+    def save(self, *args: Any, **kwargs: Any) -> None:
         super().save(*args, **kwargs)
         self.company.get_number_of_offices()

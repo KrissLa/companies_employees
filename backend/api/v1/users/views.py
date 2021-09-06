@@ -7,7 +7,8 @@ from rest_framework import permissions
 
 from backend.api.v1 import permissions as permissions_custom
 from backend.api.v1.users import serializers
-from backend.api.v1.users.filters import UserFilter, PositionFilter, SkillFilter, LanguageFilter
+from backend.api.v1.users.filters import UserFilter, PositionFilter, \
+    SkillFilter, LanguageFilter
 from backend.api.v1.viewsets import CreateRetrieveUpdateListPermissionViewSet
 from backend.apps.users.models import User, Position, Skill, Language
 
