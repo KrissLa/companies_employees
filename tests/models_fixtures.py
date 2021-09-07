@@ -18,11 +18,27 @@ def default_username() -> str:
 
 
 @pytest.fixture(scope="session")
+def admin_username() -> str:
+    """
+    Возвращает тестовый username пользователя is_staff
+    """
+    return "admin_username"
+
+
+@pytest.fixture(scope="session")
 def default_password() -> str:
     """
     Возвращает стандартный тестовый пароль
     """
     return "test_password"
+
+
+@pytest.fixture(scope="session")
+def admin_password() -> str:
+    """
+    Возвращает тестовый пароль пользователя is_staff
+    """
+    return "admin_password"
 
 
 @pytest.fixture(scope="session")
@@ -95,6 +111,16 @@ def default_user(default_username: str, default_password: str) -> User:
     Возвращает стандартный объект User
     """
     return User.objects.create(username=default_username, password=default_password)
+
+
+@pytest.fixture()
+def admin_user_1(admin_username: str, admin_password: str) -> User:
+    """
+    Возвращает объект User с правами is_staff
+    """
+    return User.objects.create(
+        username=admin_username, password=admin_password, is_staff=True
+    )
 
 
 @pytest.fixture()
@@ -171,7 +197,6 @@ def add_user(default_username: str, default_password: str) -> Callable:
         is_active: bool = True,
         is_staff: bool = False,
     ) -> User:
-
         user = User.objects.create(
             username=username, password=password, is_active=is_active, is_staff=is_staff
         )
@@ -228,3 +253,64 @@ def add_office(
         )
 
     return _add_office
+
+
+@pytest.fixture()
+def add_language(
+    default_user: User,
+    default_language_name: str,
+    default_level: int,
+) -> Callable:
+    """
+    Возвращает функцию создающую объект Language
+    """
+
+    def _add_language(
+        user: User = default_user,
+        language: str = default_language_name,
+        level: int = default_level,
+        is_active: bool = True,
+    ) -> Language:
+        return Language.objects.create(
+            user=user, language=language, level=level, is_active=is_active
+        )
+
+    return _add_language
+
+
+@pytest.fixture()
+def add_skill(
+    default_user: User,
+    default_skill_name: str,
+    default_level: int,
+) -> Callable:
+    """
+    Возвращает функцию создающую объект Skill
+    """
+
+    def _add_skill(
+        user: User = default_user,
+        skill: str = default_skill_name,
+        level: int = default_level,
+        is_active: bool = True,
+    ) -> Skill:
+        return Skill.objects.create(
+            user=user, skill=skill, level=level, is_active=is_active
+        )
+
+    return _add_skill
+
+
+@pytest.fixture()
+def add_company(default_company_name: str) -> Callable:
+    """
+    Возвращает функцию создающую объект Company
+    """
+
+    def _add_company(
+        name: str = default_company_name,
+        is_active: bool = True,
+    ) -> Skill:
+        return Company.objects.create(name=name, is_active=is_active)
+
+    return _add_company

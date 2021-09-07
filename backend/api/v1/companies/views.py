@@ -102,13 +102,14 @@ class OfficeViewSet(CreateRetrieveUpdateListPermissionViewSet):
     filter_backends = (DjangoFilterBackend,)
     filterset_class = OfficeFilter
     queryset = Office.objects.all()
-    serializer_class = serializers.OfficeCreateSerializer
+    serializer_class = serializers.OfficeUpdateSerializer
     permission_classes = [permissions.IsAdminUser]
     permission_classes_by_action = {
         "list": [permissions.AllowAny],
         "retrieve": [permissions.AllowAny],
     }
     serializers_by_action = {
+        "create": serializers.OfficeCreateSerializer,
         "list": serializers.OfficeSerializer,
         "retrieve": serializers.OfficeSerializer,
     }
