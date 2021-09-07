@@ -133,3 +133,19 @@ class OfficeCreateSerializer(serializers.ModelSerializer):
             "created_at": {"read_only": True},
             "updated_at": {"read_only": True},
         }
+
+
+class OfficeUpdateSerializer(serializers.ModelSerializer):
+    """
+    Сериализация информации об офисах
+    """
+
+    class Meta:
+        model = Office
+        fields = "__all__"
+        extra_kwargs = {
+            "id": {"read_only": True},
+            "created_at": {"read_only": True},
+            "updated_at": {"read_only": True},
+            "company": {"read_only": True},
+        }

@@ -114,7 +114,7 @@ def default_user(default_username: str, default_password: str) -> User:
 
 
 @pytest.fixture()
-def admin_user(admin_username: str, admin_password: str) -> User:
+def admin_user_1(admin_username: str, admin_password: str) -> User:
     """
     Возвращает объект User с правами is_staff
     """

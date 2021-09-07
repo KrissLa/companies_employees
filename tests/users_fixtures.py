@@ -3,15 +3,14 @@
 """
 import pytest
 from django.test.client import Client
-from loguru import logger
 
 from backend.apps.users.models import User
 
 
 @pytest.fixture
-def jwt_token(
+def auth_headers_default(
     client: Client, default_user: User, default_username: str, default_password: str
-) -> str:
+) -> dict:
     """
     Возвращает jwt обычного пользователя
     """
@@ -23,13 +22,16 @@ def jwt_token(
         },
         content_type="application/json",
     )
-    return response.data["access"]
+    auth_headers = {
+        "HTTP_AUTHORIZATION": f"Bearer {response.data['access']}",
+    }
+    return auth_headers
 
 
 @pytest.fixture
-def jwt_token_admin(
-    client: Client, admin_user: User, admin_username: str, admin_password: str
-) -> str:
+def auth_headers_admin(
+    client: Client, admin_user_1: User, admin_username: str, admin_password: str
+) -> dict:
     """
     Возвращает jwt пользователя с правами is_staff
     """
@@ -41,5 +43,7 @@ def jwt_token_admin(
         },
         content_type="application/json",
     )
-    logger.info(response.data["access"])
-    return response.data["access"]
+    auth_headers = {
+        "HTTP_AUTHORIZATION": f"Bearer {response.data['access']}",
+    }
+    return auth_headers
