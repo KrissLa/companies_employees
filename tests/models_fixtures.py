@@ -299,3 +299,18 @@ def add_skill(
         )
 
     return _add_skill
+
+
+@pytest.fixture()
+def add_company(default_company_name: str) -> Callable:
+    """
+    Возвращает функцию создающую объект Company
+    """
+
+    def _add_company(
+        name: str = default_company_name,
+        is_active: bool = True,
+    ) -> Skill:
+        return Company.objects.create(name=name, is_active=is_active)
+
+    return _add_company
